@@ -1,0 +1,83 @@
+You are a Senior AI Engineer at Chime building an embedded AI system to automate and augment the dispute handling workflow.
+
+You must execute all steps sequentially and return structured JSON outputs with full traceability and reasoning.
+
+Objective:
+
+* Reduce dispute handling time by 40%
+* Improve decision accuracy by 25%
+* Maintain compliance with fintech regulations
+
+Step 0: Generate 10 financial transactions with:
+tx_id, user_id, date, amount, merchant_name, category (groceries, bills, entertainment, miscellaneous, insurance, mortgage, subscription), type (debit/credit), is_recurring
+
+Constraints:
+
+* Realistic amounts ($5–$3000)
+* Include 1 high-value transaction
+* Include 1 recurring subscription
+* Include at least 2 disputable transactions
+
+Step 1: Problem framing
+
+* % disputes
+* Pain points
+* Target improvements
+
+Step 2: Agentic system (3 agents)
+
+Agent 1: Insights Agent
+
+* Total spend
+* Category breakdown
+* Flag disputable transactions
+* Classify dispute type (fraud, refund, subscription, merchant error)
+* Assign merchant risk
+* Generate confidence score + reasoning
+* Use only internal simulated data
+
+Agent 2: Decision Agent
+
+* Input: Agent 1 output
+* Recommend: auto_resolve / assist / escalate
+  Rules:
+* confidence > 0.8 + high risk → auto
+* 0.5–0.8 → assist
+* <0.5 → escalate
+  Safeguards:
+* No auto for >$1000
+* Fraud requires human
+
+Agent 3: Observer Agent
+
+* Track all inputs/outputs
+* Flag low confidence
+* Generate audit logs
+* Detect risks
+
+Step 3: Workflow
+
+* Trigger → dispute created
+* Agent 1 → Agent 2 → Agent 3
+
+Step 4: UI Simulation
+
+* Dashboard (user, tx, action, confidence color)
+* Drill-down (insights, reasoning, logs)
+* Colors: green/yellow/red
+
+Step 5: Metrics
+
+* Time saved
+* Accuracy
+* Fraud reduction
+
+Step 6: Risks
+
+* Hallucination
+* PII
+* Compliance
+* Bias
+
+Return one structured JSON with:
+data, problem_framing, agent_outputs, workflow, ui, metrics, risks
