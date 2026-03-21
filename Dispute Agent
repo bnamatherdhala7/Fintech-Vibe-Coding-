@@ -1,0 +1,311 @@
+
+
+
+
+You are a Senior AI Engineer at Chime building an embedded AI-powered dispute handling system.
+
+You must execute all steps sequentially and return structured JSON outputs with full traceability, reasoning, and compliance safeguards.
+
+---
+
+## 🎯 Objective
+
+Design a system to:
+
+* Reduce dispute handling time by 40%
+* Improve decision accuracy by 25%
+* Minimize false-positive refunds
+* Ensure compliance, auditability, and safe automation
+
+---
+
+## 🧱 Step 0: Data Setup (Realistic Fintech Transactions)
+
+Generate 10 transactions in JSON format with:
+
+* tx_id
+* user_id
+* date
+* amount (USD)
+* merchant_name
+* merchant_category (groceries, mortgage, bills, insurance, entertainment, subscription, miscellaneous)
+* transaction_type (debit/credit)
+* is_recurring (true/false)
+
+Constraints:
+
+* Realistic values ($5–$3000)
+* At least:
+
+  * 1 high-value transaction (> $1000)
+  * 2 recurring transactions
+  * 2 disputable transactions (fraud, duplicate, subscription confusion)
+* Include mix of known and unknown merchants
+
+---
+
+## 🧠 Step 1: Problem Framing
+
+Define:
+
+* Estimated % of disputes
+* Key pain points (manual effort, inconsistency, fraud ambiguity)
+* Target improvements (time saved, accuracy, fraud reduction)
+
+Return JSON:
+
+* assumptions
+* pain_points
+* target_metrics
+
+---
+
+## 🔎 Step 2: RAG Context Layer (MANDATORY)
+
+Simulate retrieval of contextual data for:
+
+* Merchant risk scores
+* Historical dispute rates
+* Similar past disputes
+* User dispute behavior
+
+IMPORTANT:
+
+* Use ONLY simulated internal data
+* DO NOT use external sources (e.g., Reddit, Twitter)
+
+Return JSON:
+
+* merchant_context
+* historical_patterns
+* user_context
+
+---
+
+## 🤖 Step 3: Agentic Workflow
+
+---
+
+### 🔹 Agent 1: Insights Agent (Analysis + Classification)
+
+Input:
+
+* Transactions
+* RAG context
+
+Tasks:
+
+* Compute total spend
+* Category breakdown (%)
+* Detect anomalies:
+
+  * Unusual amount
+  * Unknown merchant
+  * Duplicate/recurring confusion
+* Identify disputable transactions
+* Classify dispute type:
+
+  * fraud
+  * subscription issue
+  * refund issue
+  * merchant error
+* Assign:
+
+  * merchant risk level (low/medium/high)
+  * confidence score (0–1)
+
+Output JSON:
+
+* summary
+* category_breakdown
+* flagged_transactions
+* dispute_types
+* merchant_risk
+* confidence_scores
+* reasoning
+* data_sources ("rag_context")
+
+---
+
+### 🔹 Agent 2: Decisioning Agent (Policy-Aware Recommendations)
+
+Input:
+
+* Agent 1 output
+
+Define:
+decision_score = function(confidence_score, merchant_risk, amount, user_history)
+
+Tasks:
+Recommend one:
+
+* auto_resolve
+* assist_agent
+* escalate_to_human
+
+Rules:
+
+* confidence > 0.8 AND merchant_risk = high AND amount < $500 → auto_resolve
+* confidence 0.5–0.8 → assist_agent
+* confidence < 0.5 → escalate_to_human
+
+Safeguards:
+
+* NO auto-resolution for transactions > $1000
+* Fraud cases ALWAYS require human approval
+* Low confidence MUST escalate
+
+Output JSON:
+
+* recommended_action
+* decision_score
+* confidence_score
+* reasoning
+* safeguards_triggered
+* disclaimer
+
+---
+
+### 🔹 Agent 3: Observer Agent (Governance + Auditability)
+
+Input:
+
+* Outputs from Agent 1 & 2
+
+Tasks:
+
+* Track all inputs/outputs
+* Detect:
+
+  * low confidence (<0.5)
+  * inconsistent reasoning
+  * missing data
+* Enforce:
+
+  * policy compliance
+  * escalation rules
+* Generate:
+
+  * audit logs
+  * traceability mapping (decision → insight → data)
+
+Output JSON:
+
+* trace_logs
+* flagged_issues
+* low_confidence_cases
+* policy_violations
+* audit_summary
+
+---
+
+## 🔗 Step 4: Embedded Workflow Simulation
+
+Simulate system integration into internal tools:
+
+Trigger:
+
+* Dispute ticket created
+
+Flow:
+
+1. RAG retrieves context
+2. Agent 1 analyzes
+3. Agent 2 recommends
+4. Agent 3 validates
+
+Return JSON:
+
+* workflow_steps
+* system_interactions
+
+---
+
+## 🖥️ Step 5: UI Simulation (Embedded System View)
+
+Represent as structured text:
+
+### Dashboard:
+
+* user_id
+* tx_id
+* merchant
+* amount
+* recommended_action
+* confidence_score (color-coded)
+
+### Drill-down:
+
+* insights
+* risk level
+* reasoning
+* audit logs
+* actions: Approve / Escalate
+
+### Color Logic:
+
+* Green (>0.8)
+* Yellow (0.5–0.8)
+* Red (<0.5)
+
+---
+
+## 📊 Step 6: Metrics & ROI
+
+Simulate:
+
+* Time saved per dispute
+* % auto-resolved
+* Accuracy improvement
+* Fraud loss reduction
+
+Return JSON:
+
+* efficiency_metrics
+* quality_metrics
+* business_impact
+
+---
+
+## ⚠️ Step 7: Risks & Guardrails
+
+Include:
+
+* Hallucination prevention (RAG grounding)
+* PII protection
+* Compliance requirements
+* Bias mitigation
+* Fallback to human review
+
+Return JSON:
+
+* risks
+* mitigations
+
+---
+
+## 🌍 Global Rules
+
+* Maintain consistency across agents
+* Ensure full traceability
+* Use ONLY provided data (no external assumptions)
+* Always include reasoning
+* Prefer safe automation over aggressive automation
+* Enforce all safeguards strictly
+
+---
+
+## ✅ Final Output
+
+Return ONE structured JSON with:
+
+* data
+* problem_framing
+* rag_context
+* agent_1_output
+* agent_2_output
+* agent_3_output
+* workflow
+* ui_simulation
+* metrics
+* risks
