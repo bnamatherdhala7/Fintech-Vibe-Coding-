@@ -1,0 +1,267 @@
+You are a Senior AI Engineer at Chime building an AI-powered customer support automation system.
+
+Execute all steps sequentially and return structured JSON outputs with full reasoning, traceability, and compliance safeguards.
+
+---
+
+## 🎯 Objective
+
+* Improve support ticket resolution efficiency by 30–40%
+* Maintain >95% resolution accuracy
+* Reduce manual workload while ensuring compliance and auditability
+
+---
+
+## 🧱 Step 0: Data Setup
+
+Generate 10 support tickets in JSON format with:
+
+* ticket_id
+* customer_id
+* date
+* support_type (fraud, billing, account_info, refunds, disputes)
+* description (short realistic issue)
+
+Constraints:
+
+* Include at least:
+
+  * 2 simple tickets (account info, billing)
+  * 2 complex tickets (fraud/disputes)
+  * 2 ambiguous tickets
+* Mix of repeat and new users
+
+---
+
+## 🔎 Step 1: RAG Context Layer (MANDATORY)
+
+Simulate retrieval of internal data:
+
+* customer profile (tenure, past tickets)
+* past similar tickets
+* resolution outcomes
+* support policies
+
+Rules:
+
+* Use ONLY simulated internal enterprise data
+* DO NOT use external sources (no Reddit, no web)
+
+Return JSON:
+
+* customer_context
+* historical_ticket_patterns
+* policy_constraints
+
+---
+
+## 🤖 Step 2: Agentic Workflow
+
+---
+
+### 🔹 Agent 1: Insights Agent (Classification + Analysis)
+
+Input:
+
+* Support tickets
+* RAG context
+
+Tasks:
+
+* Classify ticket intent
+* Detect complexity (low / medium / high)
+* Identify ambiguity
+* Retrieve similar past cases
+* Assign:
+
+  * confidence_score (0–1)
+  * risk_level (low / medium / high)
+
+Output JSON:
+
+* classified_tickets
+* complexity_levels
+* risk_levels
+* confidence_scores
+* reasoning
+* supporting_data ("rag_context")
+
+---
+
+### 🔹 Agent 2: Decisioning Agent (Policy-Based Resolution)
+
+Input:
+
+* Agent 1 output
+
+Define:
+decision_score = weighted(confidence_score, risk_level, ticket_complexity, user_history)
+
+Tasks:
+Recommend one action:
+
+* auto_resolve (LLM generates response)
+* assist_agent (draft response for human)
+* escalate_to_human
+
+Rules:
+
+* confidence > 0.8 AND risk = low → auto_resolve
+* confidence 0.5–0.8 → assist_agent
+* confidence < 0.5 OR risk = high → escalate_to_human
+
+Strict Safeguards:
+
+* Fraud-related tickets ALWAYS escalate
+* Ambiguous tickets MUST escalate
+* Missing data → escalate
+* No sensitive data exposure
+
+Output JSON:
+
+* recommended_action
+* decision_score
+* confidence_score
+* reasoning
+* safeguards_triggered
+* disclaimer
+
+---
+
+### 🔹 Agent 3: Observer Agent (Governance + Auditability)
+
+Input:
+
+* Agent 1 and Agent 2 outputs
+
+Tasks:
+
+* Track all decisions and inputs
+* Detect:
+
+  * low confidence (<0.5)
+  * inconsistent reasoning
+  * policy violations
+* Enforce:
+
+  * escalation rules
+  * compliance constraints
+* Generate:
+
+  * audit logs
+  * traceability mapping (decision → insight → data)
+
+Output JSON:
+
+* trace_logs
+* flagged_issues
+* low_confidence_cases
+* policy_violations
+* audit_summary
+
+---
+
+## 🔗 Step 3: Workflow Simulation
+
+Simulate system execution:
+
+1. Ticket created
+2. RAG retrieves context
+3. Insights Agent processes
+4. Decisioning Agent recommends
+5. Observer validates
+
+Return JSON:
+
+* workflow_steps
+* system_flow
+
+---
+
+## 🖥️ Step 4: UI Simulation (Embedded Support Tool)
+
+Represent as structured text:
+
+### Dashboard:
+
+* ticket_id
+* customer_id
+* support_type
+* recommended_action
+* confidence_score (color-coded)
+
+### Drill-down View:
+
+* classification
+* risk level
+* reasoning
+* past similar tickets
+* audit logs
+* actions: Approve / Edit / Escalate
+
+### Color Logic:
+
+* Green (>0.8)
+* Yellow (0.5–0.8)
+* Red (<0.5)
+
+---
+
+## 📊 Step 5: Metrics & Impact
+
+Simulate:
+
+* % auto-resolved tickets
+* reduction in handling time
+* accuracy improvement
+* agent productivity gain
+
+Return JSON:
+
+* efficiency_metrics
+* quality_metrics
+* business_impact
+
+---
+
+## ⚠️ Step 6: Risks & Guardrails
+
+Include:
+
+* hallucination prevention (RAG grounding)
+* incorrect automation risk
+* compliance risks
+* bias risks
+* fallback mechanisms
+
+Return JSON:
+
+* risks
+* mitigations
+
+---
+
+## 🌍 Global Rules
+
+* Maintain consistency across agents
+* Ensure full traceability
+* Use only provided and retrieved data
+* Always include reasoning
+* Prefer safe automation over aggressive automation
+* Strictly enforce safeguards
+
+---
+
+## ✅ Final Output
+
+Return ONE structured JSON containing:
+
+* data
+* rag_context
+* agent_1_output
+* agent_2_output
+* agent_3_output
+* workflow
+* ui_simulation
+* metrics
+* risks
