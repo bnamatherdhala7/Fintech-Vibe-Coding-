@@ -1,0 +1,207 @@
+Role: You are a Senior AI Engineer at Chime building a fraud detection and decisioning system embedded into transaction workflows.
+
+Objective:
+
+* Reduce false positives by 50% (avoid blocking legitimate transactions)
+* Improve fraud detection accuracy by 30%
+* Ensure compliance and auditability
+
+---
+
+## Step 0: Data Setup
+
+Generate 12 transactions with:
+
+* tx_id
+* user_id
+* date
+* amount
+* merchant_name
+* category (groceries, subscription, insurance, mortgage, miscellaneous)
+* is_recurring
+* location
+* device_id
+
+Ensure:
+
+* 3 high-value mortgage transactions
+* 3 high-value miscellaneous transactions
+* 3 recurring subscriptions
+* Mix of known (Amazon, Netflix) and unknown merchants
+* Include:
+
+  * 2 genuine fraud cases
+  * 2 edge cases (look like fraud but are legit → important for false positives)
+
+---
+
+## Step 1: Problem Framing
+
+Define:
+
+* Fraud rate assumption (~1–3%)
+* False positive cost (customer frustration, churn)
+* False negative cost (fraud loss)
+
+---
+
+## Step 2: Agentic System
+
+---
+
+### 🔹 Agent 1: Fraud Intelligence Agent
+
+Input:
+
+* Transactions
+* RAG:
+
+  * User history (spending patterns)
+  * Past fraud cases
+  * Merchant risk scores
+
+Tasks:
+
+* Detect signals:
+
+  * Unusual amount vs user baseline
+  * New merchant
+  * Location mismatch
+  * Velocity anomalies
+* Classify:
+
+  * likely_fraud
+  * likely_legit
+  * uncertain
+
+Compute:
+fraud_score = weighted(
+0.25 merchant_risk +
+0.25 user_behavior_deviation +
+0.2 velocity +
+0.15 amount +
+0.15 policy_rules
+)
+
+Output:
+
+* fraud_score (0–1)
+* classification
+* signals_triggered
+* reasoning
+
+---
+
+### 🔹 Agent 2: Decisioning Agent
+
+Goal:
+Minimize false positives while catching fraud
+
+Decision Logic:
+
+* fraud_score > 0.85 → block + escalate
+* 0.6–0.85 → step-up verification (OTP / user confirmation)
+* <0.6 → allow transaction
+
+Key Insight:
+👉 Use **step-up verification** instead of blocking → reduces false positives
+
+Safeguards:
+
+* High-value (> $1000) → always require verification
+* Known merchants → lower risk weight
+* Repeat fraud signals → stricter action
+
+Output:
+
+* action (allow / verify / block)
+* reasoning
+* confidence
+* safeguards_triggered
+
+---
+
+### 🔹 Agent 3: Observer Agent
+
+Tasks:
+
+* Track decisions
+* Identify:
+
+  * false positives (legit tx flagged)
+  * false negatives (fraud missed)
+* Monitor drift:
+
+  * changes in fraud patterns
+
+Output:
+
+* audit_logs
+* flagged_errors
+* model_risk_summary
+
+---
+
+## Step 3: Workflow
+
+Trigger:
+Transaction initiated
+
+Flow:
+Agent 1 → risk scoring
+Agent 2 → decision
+Agent 3 → logging + monitoring
+
+---
+
+## Step 4: UI Simulation
+
+Dashboard:
+
+* tx_id
+* fraud_score
+* action
+* confidence (color-coded)
+
+Drill-down:
+
+* signals triggered
+* user history comparison
+* reasoning
+* audit logs
+
+---
+
+## Step 5: Metrics
+
+* False positive rate ↓ 50%
+* Fraud detection accuracy ↑ 30%
+* % transactions auto-approved
+* % step-up verifications
+
+---
+
+## Step 6: Risks
+
+* Over-blocking → customer churn
+* Under-detection → fraud loss
+* Bias in user profiling
+
+Mitigation:
+
+* Human review loops
+* Continuous evaluation
+* Threshold tuning
+
+---
+
+Final Output:
+Return structured JSON:
+
+* data
+* insights
+* decisions
+* observability
+* UI
+* metrics
+* risks
